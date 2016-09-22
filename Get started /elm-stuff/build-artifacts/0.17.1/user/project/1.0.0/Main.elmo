@@ -1,5 +1,23 @@
-var _user$project$Main$checkbox = F2(
-	function (msg, name) {
+var _user$project$Main$sizeToStyle = function (fontSize) {
+	var size = function () {
+		var _p0 = fontSize;
+		switch (_p0.ctor) {
+			case 'Small':
+				return '0.8em';
+			case 'Medium':
+				return '1em';
+			default:
+				return '1.2em';
+		}
+	}();
+	return _elm_lang$html$Html_Attributes$style(
+		_elm_lang$core$Native_List.fromArray(
+			[
+				{ctor: '_Tuple2', _0: 'font-size', _1: size}
+			]));
+};
+var _user$project$Main$radio = F2(
+	function (value, msg) {
 		return A2(
 			_elm_lang$html$Html$label,
 			_elm_lang$core$Native_List.fromArray(
@@ -16,59 +34,70 @@ var _user$project$Main$checkbox = F2(
 					_elm_lang$html$Html$input,
 					_elm_lang$core$Native_List.fromArray(
 						[
-							_elm_lang$html$Html_Attributes$type$('checkbox'),
+							_elm_lang$html$Html_Attributes$type$('radio'),
+							_elm_lang$html$Html_Attributes$name('font-size'),
 							_elm_lang$html$Html_Events$onClick(msg)
 						]),
 					_elm_lang$core$Native_List.fromArray(
 						[])),
-					_elm_lang$html$Html$text(name)
+					_elm_lang$html$Html$text(value)
 				]));
 	});
 var _user$project$Main$update = F2(
 	function (msg, model) {
-		var _p0 = msg;
-		switch (_p0.ctor) {
-			case 'ToggleNotifications':
-				return _elm_lang$core$Native_Utils.update(
-					model,
-					{
-						notifications: _elm_lang$core$Basics$not(model.notifications)
-					});
-			case 'ToggleAutoplay':
-				return _elm_lang$core$Native_Utils.update(
-					model,
-					{
-						autoplay: _elm_lang$core$Basics$not(model.autoplay)
-					});
-			default:
-				return _elm_lang$core$Native_Utils.update(
-					model,
-					{
-						location: _elm_lang$core$Basics$not(model.location)
-					});
-		}
+		var _p1 = msg;
+		return _elm_lang$core$Native_Utils.update(
+			model,
+			{fontSize: _p1._0});
 	});
-var _user$project$Main$Model = F3(
-	function (a, b, c) {
-		return {notifications: a, autoplay: b, location: c};
+var _user$project$Main$intro = '\n# Anna Karenina\n## Chapter 1\nHappy families are all alike; every unhappy family is unhappy in its own way.\nEverything was in confusion in the Oblonskys’ house. The wife had discovered\nthat the husband was carrying on an intrigue with a French girl, who had been\na governess in their family, and she had announced to her husband that she\ncould not go on living in the same house with him...\n';
+var _user$project$Main$Model = F2(
+	function (a, b) {
+		return {fontSize: a, content: b};
 	});
-var _user$project$Main$optOut = A3(_user$project$Main$Model, true, true, true);
-var _user$project$Main$ToggleLocation = {ctor: 'ToggleLocation'};
-var _user$project$Main$ToggleAutoplay = {ctor: 'ToggleAutoplay'};
-var _user$project$Main$ToggleNotifications = {ctor: 'ToggleNotifications'};
+var _user$project$Main$Large = {ctor: 'Large'};
+var _user$project$Main$Medium = {ctor: 'Medium'};
+var _user$project$Main$chapter1 = A2(_user$project$Main$Model, _user$project$Main$Medium, _user$project$Main$intro);
+var _user$project$Main$Small = {ctor: 'Small'};
+var _user$project$Main$SwitchTo = function (a) {
+	return {ctor: 'SwitchTo', _0: a};
+};
 var _user$project$Main$view = function (model) {
 	return A2(
-		_elm_lang$html$Html$fieldset,
+		_elm_lang$html$Html$div,
 		_elm_lang$core$Native_List.fromArray(
 			[]),
 		_elm_lang$core$Native_List.fromArray(
 			[
-				A2(_user$project$Main$checkbox, _user$project$Main$ToggleNotifications, 'Email Notifications'),
-				A2(_user$project$Main$checkbox, _user$project$Main$ToggleAutoplay, 'Video Autoplay'),
-				A2(_user$project$Main$checkbox, _user$project$Main$ToggleLocation, 'Use Location')
+				A2(
+				_elm_lang$html$Html$fieldset,
+				_elm_lang$core$Native_List.fromArray(
+					[]),
+				_elm_lang$core$Native_List.fromArray(
+					[
+						A2(
+						_user$project$Main$radio,
+						'Small',
+						_user$project$Main$SwitchTo(_user$project$Main$Small)),
+						A2(
+						_user$project$Main$radio,
+						'Medium',
+						_user$project$Main$SwitchTo(_user$project$Main$Medium)),
+						A2(
+						_user$project$Main$radio,
+						'Large',
+						_user$project$Main$SwitchTo(_user$project$Main$Large))
+					])),
+				A2(
+				_evancz$elm_markdown$Markdown$toHtml,
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_user$project$Main$sizeToStyle(model.fontSize)
+					]),
+				model.content)
 			]));
 };
 var _user$project$Main$main = {
 	main: _elm_lang$html$Html_App$beginnerProgram(
-		{model: _user$project$Main$optOut, update: _user$project$Main$update, view: _user$project$Main$view})
+		{model: _user$project$Main$chapter1, update: _user$project$Main$update, view: _user$project$Main$view})
 };
