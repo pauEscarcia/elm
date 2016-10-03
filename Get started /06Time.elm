@@ -1,4 +1,4 @@
-- import Html exposing (Html)
+import Html exposing (Html)
 import Html.App as App
 import Svg exposing (..)
 import Svg.Attributes exposing (..)
